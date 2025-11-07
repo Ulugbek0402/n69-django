@@ -10,7 +10,7 @@ urlpatterns = [
     # path('news/add_news/', CreateNews.as_view(), name='add_news'),
     # path('detail_new/<int:pk>/', detail_new, name="detail_new"),
     #path('detail_new/<int:pk>/', ViewNews.as_view(), name='detail_new'),
-    path('category/<int:pk>/', category, name="category"),
-    # path('category/<int:pk>/', NewsByCategory.as_view(), name='category'),
+    # path('category/<int:pk>/', category, name="category"),
+    path('category/<int:pk>/', NewsByCategory.as_view(), name='category'),
     # path('update_new/<int:pk>/', update_new, name="update_new"),
 ]
