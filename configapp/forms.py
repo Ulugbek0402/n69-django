@@ -1,5 +1,9 @@
 # forms.py
+import re
+
 from django import forms
+from django.core.exceptions import ValidationError
+
 from .models import News
 
 
@@ -17,11 +21,20 @@ class SearchForm(forms.Form):
 class NewsForm(forms.ModelForm):
     class Meta:
         model = News
-        # exclude auto fields; include what a user should edit
-        fields = ['title', 'content', 'photo', 'category', 'bool']
+        fields = '__all__'
+        # fields = ['title', 'context', 'is_bool', 'category']
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
-            'content': forms.Textarea(attrs={'class': 'form-control', 'rows': 5}),
-            'category': forms.Select(attrs={'class': 'form-select'}),
-            'bool': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'context': forms.Textarea(attrs={'class': 'form-control', 'rows': 5}),
+            'category': forms.Select(attrs={'class': 'form-control'}),
         }
+
+
+        def clean_title(self):
+            title = self.cleaned_data['title']
+
+            if re.match(r'\d', title):
+                print("salom ======================")
+                raise ValidationError('Title raqam bo‘lmasin')
+
+            return title

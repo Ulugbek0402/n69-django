@@ -13,7 +13,7 @@ def index(request):
         if form.is_valid():
             query = form.cleaned_data.get("title")
             name = news.filter(title__icontains = query)
-    return render(request, "index.html", {"news": news, "cat": cat})
+    return render(request, "index.html", {"news": news, "cat": cat, "form": form})
 
 def category(request, pk):
     news = News.objects.filter(category=pk)
@@ -23,6 +23,7 @@ def category(request, pk):
         "category": category,
         "title": "NEWS TITLE"
     }
+
 
     return render(request, 'category.html', context=context)
 
