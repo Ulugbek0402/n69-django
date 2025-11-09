@@ -6,15 +6,15 @@ from .forms import NewsForm, SearchForm
 from .models import *
 
 
-def index(request):
-    if request.method == "GET":
-        form = SearchForm(request.GET)
-        news = News.objects.all()
-        cat = Category.objects.all()
-        if form.is_valid():
-            query = form.cleaned_data.get("title")
-            name = news.filter(title__icontains = query)
-    return render(request, "index.html", {"news": news, "cat": cat, "form": form})
+# def index(request):
+#     if request.method == "GET":
+#         form = SearchForm(request.GET)
+#         news = News.objects.all()
+#         cat = Category.objects.all()
+#         if form.is_valid():
+#             query = form.cleaned_data.get("title")
+#             name = news.filter(title__icontains = query)
+#     return render(request, "index.html", {"news": news, "cat": cat, "form": form})
 
 def category(request, pk):
     news = News.objects.filter(category=pk)
@@ -126,3 +126,11 @@ class NewsUpdate(UpdateView):
     template_name = "update_new.html"
     success_url = reverse_lazy('home')
     pk_url_kwarg = 'pk'
+
+
+def index(request):   return render(request, 'index.html')
+def about(request):   return render(request, 'about.html')
+def company(request): return render(request, 'company.html')
+def contact(request): return render(request, 'contact.html')
+def design(request):  return render(request, 'design.html')
+def news(request):    return render(request, 'news.html')

@@ -23,7 +23,7 @@ from config import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('app1/', include('configapp.urls')),
+    path('', include('configapp.urls')),  # use your actual app name
 ]
 
 if settings.DEBUG:
