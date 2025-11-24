@@ -4,6 +4,13 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView
 
 from .forms import NewsForm, SearchForm
 from .models import *
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from django.shortcuts import get_object_or_404
+
+from .models import Customer, Employee, Order
+from .serializers import CustomerSerializer, EmployeeSerializer, OrderSerializer
 
 
 # def index(request):
@@ -134,3 +141,105 @@ def company(request): return render(request, 'company.html')
 def contact(request): return render(request, 'contact.html')
 def design(request):  return render(request, 'design.html')
 def news(request):    return render(request, 'news.html')
+
+
+
+class CustomerListCreateApi(APIView):
+
+    def get(self, request):
+        customers = Customer.objects.all()
+        serializer = CustomerSerializer(customers, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer = CustomerSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+class CustomerDetailApi(APIView):
+
+    def get(self, request, id):
+        customer = get_object_or_404(Customer, id=id)
+        serializer = CustomerSerializer(customer)
+        return Response(serializer.data)
+
+    def put(self, request, id):
+        customer = get_object_or_404(Customer, id=id)
+        serializer = CustomerSerializer(customer, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
+    def delete(self, request, id):
+        customer = get_object_or_404(Customer, id=id)
+        customer.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+class EmployeeListCreateApi(APIView):
+
+        def get(self, request):
+            employees = Employee.objects.all()
+            serializer = EmployeeSerializer(employees, many=True)
+            return Response(serializer.data)
+
+        def post(self, request):
+            serializer = EmployeeSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+class EmployeeDetailApi(APIView):
+
+        def get(self, request, id):
+            employee = get_object_or_404(Employee, id=id)
+            serializer = EmployeeSerializer(employee)
+            return Response(serializer.data)
+
+        def put(self, request, id):
+            employee = get_object_or_404(Employee, id=id)
+            serializer = EmployeeSerializer(employee, data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            return Response(serializer.data)
+
+        def delete(self, request, id):
+            employee = get_object_or_404(Employee, id=id)
+            employee.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
+class OrderListCreateApi(APIView):
+
+    def get(self, request):
+        orders = Order.objects.all()
+        serializer = OrderSerializer(orders, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer = OrderSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+class OrderDetailApi(APIView):
+
+    def get(self, request, id):
+        order = get_object_or_404(Order, id=id)
+        serializer = OrderSerializer(order)
+        return Response(serializer.data)
+
+    def put(self, request, id):
+        order = get_object_or_404(Order, id=id)
+        serializer = OrderSerializer(order, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
+    def delete(self, request, id):
+        order = get_object_or_404(Order, id=id)
+        order.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
